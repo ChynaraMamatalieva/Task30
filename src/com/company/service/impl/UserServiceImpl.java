@@ -5,62 +5,51 @@ import com.company.dao.UserDao;
 import com.company.model.User;
 import com.company.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 
-    private  UserDao user;
+    UserDao userDao = new UserDao(new ArrayList<>());
 
-    public UserServiceImpl(UserDao user) {
-        this.user = user;
+    public UserServiceImpl() {
+
     }
-
-    public UserDao getUser() {
-        return user;
-    }
-
 
 
     @Override
-    public void userdiKoshu(List<User> list,User user) {
-        list.add(user);
+    public void addUser(User user) {
+        userDao.getUsers().add(user);
+
     }
 
     @Override
-    public void idMenenTabuu(List<User> list, int id) {
+    public Optional<User> findById(int id) {
         try {
-            for (User user1 : list) {
-                if (user1.getId() != id) {
-                    throw new MyException("no such id ");
-                } else if (user1.getId() == id) {
-                    System.out.println(user1);
-                }
+            return userDao.getUsers().stream().filter(x -> x.getId() == id).findFirst();
+        } catch (MyException e) {
+            System.err.println("No such an id");
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public void deleteById(int id) {
+        try {
+            Optional<User> user = userDao.getUsers().stream().filter(x -> x.getId() == id).findFirst();
+            if (user.isEmpty()) {
+                throw new MyException();
+            } else {
+                userDao.getUsers().removeIf(x -> x.getId() == id);
             }
-        } catch (MyException e){
-            System.err.println(e.getMessage());
+        } catch (MyException e) {
+            System.out.println("can't find such an id");
         }
-//        for(User u: list){
-//            if(u.getId() == id){
-//                System.out.println(u);
-//            }
-//        }
-        list.stream().filter(x -> x.getId() == id).forEach(System.out::println);
-    }
-
-    private boolean user(int id) {
-        return false;
     }
 
     @Override
-    public void idMenenOchuruu(List<User> list, int id) {
-        list.removeIf(user1 -> user1.getId() == id);
-
-    }
-
-    @Override
-    public void bardykUserlerdiAluu(List<User> list) {
-        for (User user1 : list) {
-            System.out.println(user1);
-        }
+    public List<User> getAll() {
+        return userDao.getUsers();
     }
 }

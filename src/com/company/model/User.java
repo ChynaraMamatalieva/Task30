@@ -19,6 +19,8 @@ public class User {
         this.gender = gender;
     }
 
+
+
     public String getName() {
         return name;
     }
@@ -53,11 +55,12 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                ", age=" + age +
-                ", gender=" + gender +
-                '}';
+        return "User: " +
+                "name: " + name + "," +
+                "id: " + id + "," +
+                "age: " + age + "," +
+                "gender: " + gender;
     }
+
+
 }

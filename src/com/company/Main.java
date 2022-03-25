@@ -7,6 +7,7 @@ import com.company.service.UserService;
 import com.company.service.impl.UserServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -29,19 +30,21 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        ArrayList<User> users = new ArrayList<>(List.of(new User("Chynara", 1, 33, Gender.FEMALE),
-                                new User("Ulan", 2, 24, Gender.MALE),
-                                new User("Aziza", 3, 30, Gender.FEMALE)));
-        users.stream().forEach(user -> System.out.println(user));
-        UserDao userDao = new UserDao(users);
-        UserServiceImpl userService = new UserServiceImpl(userDao);
-        userService.idMenenTabuu(users, 7);
-        userService.idMenenOchuruu(users,5);
-        System.out.println(users);
+        User user1 = new User("Chynara", 1, 33, Gender.FEMALE);
+        User user2 = new User("Aichurok", 2, 30, Gender.FEMALE);
+        User user3 = new User("Sultanbek", 3, 18, Gender.MALE);
+
+        UserService userService = new UserServiceImpl();
+        userService.addUser(user1);
+        userService.addUser(user2);
+        userService.addUser(user3);
 
 
-
-
+        System.out.println(userService.findById(1));
+        userService.getAll().forEach(System.out::println);
+        System.out.println();
+        userService.deleteById(2);
+        userService.getAll().forEach(System.out::println);
 
 
 
